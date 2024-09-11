@@ -30,6 +30,7 @@ public class BlockListMigrationPlan : ISyncMigrationPlan
         PreferredMigrators = new Dictionary<string, string>
         {
             { UmbConstants.PropertyEditors.Aliases.NestedContent, "NestedToBlockListMigrator" },
-        }
+			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" }
+		}
     };
 }

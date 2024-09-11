@@ -1,8 +1,9 @@
+using Lucene.Net.Util;
 using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
+using System.Linq.Expressions;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.Blocks;
 using Umbraco.Cms.Core.PropertyEditors;
@@ -10,19 +11,19 @@ using Umbraco.Extensions;
 
 using uSync.Migrations.Core.Extensions;
 using uSync.Migrations.Migrators.Core;
-
+using uSync.Migrations.Migrators.FreshEgg.Models;
 using static Umbraco.Cms.Core.Constants;
 
 namespace uSync.Migrations.Migrators.Optional;
 
 [SyncMigrator(UmbConstants.PropertyEditors.Aliases.NestedContent)]
-[SyncMigrator("Our.Umbraco.NestedContent")]
+[SyncMigrator("nestedContentWithPreview")]
 [SyncMigratorVersion(7, 8)]
-public class NestedToBlockListMigrator : SyncPropertyMigratorBase
+public class NestedPreviewToBlockListMigrator : SyncPropertyMigratorBase
 {
     private readonly ILogger<NestedToBlockListMigrator> _logger;
 
-    public NestedToBlockListMigrator(ILogger<NestedToBlockListMigrator> logger)
+    public NestedPreviewToBlockListMigrator(ILogger<NestedToBlockListMigrator> logger)
     {
         _logger = logger;
     }
@@ -63,10 +64,30 @@ public class NestedToBlockListMigrator : SyncPropertyMigratorBase
         if (string.IsNullOrWhiteSpace(dataTypeProperty.ConfigAsString))
             return new BlockListConfiguration();
 
-        var nestedConfig = JsonConvert.DeserializeObject<NestedContentConfiguration>(dataTypeProperty.ConfigAsString);
-        if (nestedConfig == null) return new BlockListConfiguration();
+        try
+        {        
+            var nestedContentViewPreviewConfig = JsonConvert.DeserializeObject<NestedContentWithPreviewConfiguration>(dataTypeProperty.ConfigAsString);
 
-        return GetBlockListConfigFromNestedConfig(nestedConfig, context);
+            if (nestedContentViewPreviewConfig == null) return new BlockListConfiguration();
+
+            var nestedConfig = new NestedContentConfiguration
+            {
+                ConfirmDeletes = nestedContentViewPreviewConfig.ConfirmDeletes == "1",
+                ShowIcons = nestedContentViewPreviewConfig.ShowIcons == "1",
+                MinItems = nestedContentViewPreviewConfig.MinItems,
+                MaxItems = nestedContentViewPreviewConfig.MaxItems,
+                ExpandsOnLoad = nestedContentViewPreviewConfig.ExpandsOnLoad,
+                HideLabel = nestedContentViewPreviewConfig.HideLabel == "1",
+                ContentTypes = nestedContentViewPreviewConfig.ContentTypes
+			};			
+
+			if (nestedConfig == null) return new BlockListConfiguration();
+			return GetBlockListConfigFromNestedConfig(nestedConfig, context);
+		}
+		catch(Exception ex)
+        {
+            return new BlockListConfiguration();
+        }        
     }
 
     private object GetBlockListConfigFromNestedConfig(NestedContentConfiguration nestedConfig, SyncMigrationContext context)
