@@ -11,14 +11,14 @@ using uSync.Migrations.Core.Extensions;
 namespace uSync.Migrations.Migrators.Core;
 
 [SyncMigrator(UmbEditors.Aliases.MediaPicker)]
-[SyncMigrator("Umbraco.MediaPicker2")]
-[SyncMigrator(UmbEditors.Aliases.MultipleMediaPicker)]
+//[SyncMigrator("Umbraco.MediaPicker2")]
+//[SyncMigrator(UmbEditors.Aliases.MultipleMediaPicker)]
 [SyncMigratorVersion(7, 8)]
 
 public class CustomMediaPickerMigrator : SyncPropertyMigratorBase
 {
     public override string GetEditorAlias(SyncMigrationDataTypeProperty dataTypeProperty, SyncMigrationContext context)
-        => UmbEditors.Aliases.MediaPicker;
+        => UmbEditors.Aliases.MediaPicker3;
 
     public override string GetDatabaseType(SyncMigrationDataTypeProperty dataTypeProperty, SyncMigrationContext context)
         => "Ntext";

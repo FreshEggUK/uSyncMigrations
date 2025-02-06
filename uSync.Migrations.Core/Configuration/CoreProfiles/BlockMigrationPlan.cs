@@ -32,7 +32,7 @@ public class BlockMigrationPlan : ISyncMigrationPlan
             { UmbConstants.PropertyEditors.Aliases.NestedContent, "NestedToBlockListMigrator" },
             { UmbConstants.PropertyEditors.Aliases.Grid, "GridToBlockGridMigrator" },
 			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" },
-            { UmbConstants.PropertyEditors.Aliases.MediaPicker, "MediaPickerMigrator_Custom" }
+            //{ UmbConstants.PropertyEditors.Aliases.MediaPicker, "MediaPickerMigrator_Custom" }
 
         }
     };
