@@ -30,7 +30,8 @@ public class BlockListMigrationPlan : ISyncMigrationPlan
         PreferredMigrators = new Dictionary<string, string>
         {
             { UmbConstants.PropertyEditors.Aliases.NestedContent, "NestedToBlockListMigrator" },
-			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" }
-		}
+			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" },
+            { UmbConstants.PropertyEditors.Aliases.MediaPicker, "MediaPickerMigrator_Custom" }
+        }
     };
 }
