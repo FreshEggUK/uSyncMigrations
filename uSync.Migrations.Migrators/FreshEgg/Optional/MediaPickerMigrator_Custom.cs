@@ -25,9 +25,9 @@ public class CustomMediaPickerMigrator : SyncPropertyMigratorBase
 
     public override object? GetConfigValues(SyncMigrationDataTypeProperty dataTypeProperty, SyncMigrationContext context)
     {
-        var config = new MediaPicker3Configuration()
+        var config = new Umbraco.Cms.Core.PropertyEditors.MediaPicker3Configuration_Custom()
         {
-            Crops = Array.Empty<MediaPicker3Configuration.CropConfiguration>()
+            Crops = Array.Empty<MediaPicker3Configuration_Custom.CropConfiguration>()
         };
 
         var imageOnly = dataTypeProperty.PreValues.GetPreValueOrDefault("onlyImages", false);
