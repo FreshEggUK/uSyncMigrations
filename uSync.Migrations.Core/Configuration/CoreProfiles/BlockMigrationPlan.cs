@@ -14,7 +14,7 @@ public class BlockMigrationPlan : ISyncMigrationPlan
 
     public int Order => 200;
 
-    public string Name => "Convert Nested Content to BlockList and Grid to BlockGrid";
+    public string Name => "Convert Nested Content to BlockList and Grid to BlockGrid - Debug";
 
     public string Icon => "icon-brick color-green";
 
@@ -31,7 +31,9 @@ public class BlockMigrationPlan : ISyncMigrationPlan
         {
             { UmbConstants.PropertyEditors.Aliases.NestedContent, "NestedToBlockListMigrator" },
             { UmbConstants.PropertyEditors.Aliases.Grid, "GridToBlockGridMigrator" },
-			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" }			
-		}
+			{ "nestedContentWithPreview", "NestedPreviewToBlockListMigrator" },
+            //{ UmbConstants.PropertyEditors.Aliases.MediaPicker, "MediaPickerMigrator_Custom" }
+
+        }
     };
 }
